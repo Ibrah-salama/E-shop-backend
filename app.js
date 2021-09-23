@@ -1,44 +1,55 @@
-const express = require('express');
-const dotenv = require('dotenv')
-const logger = require('morgan');
-const morgan = require('morgan');
-const fs = require('fs')
+const express = require("express");
+const dotenv = require("dotenv");
+const logger = require("morgan");
+const morgan = require("morgan");
+const fs = require("fs");
+const mongoose = require("mongoose");
+const { Console } = require("console");
 
-const app = express()
-app.use(express.json())
+const app = express();
+app.use(express.json());
 
-app.use(logger('common', {
-    stream: fs.createWriteStream('./access.log', {flags: 'a'})
-}));
+app.use(
+  logger("common", {
+    stream: fs.createWriteStream("./access.log", { flags: "a" }),
+  })
+  );
+  
+  app.use(morgan("dev"));
+  
+  dotenv.config({ path: "./config.env" });
 
-app.use(morgan('dev'))
+const DB =process.env.DB_URL
+mongoose.connect(DB,{
+        useNewUrlParser:true,
+        useUnifiedTopology: true
+}).then((con) => {
 
-dotenv.config({path:'./config.env'})
+  console.log("Connected successfull with atlas");
 
-const api = process.env.API_URL
+}).catch(err=> console.log(err))
 
-app.get(`${api}/products`,(req,res)=>{
-    const prod = {
-        id:1,
-        name:"hh"
-    }
-    res.send(prod)
-})
+const api = process.env.API_URL;
 
-app.post(`${api}/products`,(req,res)=>{
-    const prod = req.body
-    console.log(prod)
-    res.send(prod)
-})
+app.get(`${api}/products`, (req, res) => {
+  const prod = {
+    id: 1,
+    name: "hh",
+  };
+  res.send(prod);
+});
 
+app.post(`${api}/products`, (req, res) => {
+  const prod = req.body;
+  console.log(prod);
+  res.send(prod);
+});
 
-
-
-app.listen(3000,(err)=>{
-    if(err){
-        console.log('Error connecting on port 3000')
-    }else{
-        console.log(api)
-        console.log('Connected successfully on port 3000 ')
-    }
-})
+app.listen(3000, (err) => {
+  if (err) {
+    console.log("Error connecting on port 3000");
+  } else {
+    console.log(api);
+    console.log("Connected successfully on port 3000 ");
+  }
+});
