@@ -1,0 +1,5 @@
+::1 - - [23/Sep/2021:08:59:52 +0000] "GET /api/v1/products HTTP/1.1" 200 20
+::1 - - [23/Sep/2021:09:01:27 +0000] "GET /api/v1/products HTTP/1.1" 200 20
+::1 - - [23/Sep/2021:09:01:28 +0000] "GET /api/v1/products HTTP/1.1" 200 20
+::1 - - [23/Sep/2021:09:01:32 +0000] "GET /api/v1/products HTTP/1.1" 200 20
+::1 - - [23/Sep/2021:09:01:47 +0000] "POST /api/v1/products HTTP/1.1" 200 20
