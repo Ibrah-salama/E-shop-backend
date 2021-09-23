@@ -4,7 +4,8 @@ const logger = require("morgan");
 const morgan = require("morgan");
 const fs = require("fs");
 const mongoose = require("mongoose");
-const { Console } = require("console");
+
+const ProductModel = require('./models/product')
 
 const app = express();
 app.use(express.json());
@@ -32,17 +33,19 @@ mongoose.connect(DB,{
 const api = process.env.API_URL;
 
 app.get(`${api}/products`, (req, res) => {
-  const prod = {
-    id: 1,
-    name: "hh",
-  };
-  res.send(prod);
+  const prod = ProductModel.find().then(data=>{ console.log(data)
+    res.send(data);
+  }).catch(err=>{ console.log(err)})
 });
 
 app.post(`${api}/products`, (req, res) => {
   const prod = req.body;
+  ProductModel.create(prod).then(res=>{
+    console.log(res)
+    res.send(prod);
+  }).catch(err=> console.log(err))
   console.log(prod);
-  res.send(prod);
+
 });
 
 app.listen(3000, (err) => {
