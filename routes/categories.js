@@ -57,20 +57,26 @@ router.get("/:categoryId", async (req, res, next) => {
 });
 
 router.delete("/:categoryId", async (req, res, next) => {
+  if (!mongoose.isValidObjectId(req.params.productId)) {
+    res.status(400).json({
+      status: "fail",
+      message: "invalid id",
+    });
+  }
   try {
-    const categoryId = req.params.categoryId;
-    const category = await CategoryModel.findByIdAndDelete({ _id: categoryId });
-    if (category) {
-      res.status(204).json({
-        status: "success",
-        message: "Category deleted successfully!",
-      });
-    } else {
-      res.status(401).json({
+    const category = await CategoryModel.findByIdAndDelete(
+      req.params.categoryId
+    );
+    if (!category) {
+      return res.status(401).json({
         status: "Fail",
         message: "Category not found!",
       });
     }
+    res.status(204).json({
+      status: "success",
+      message: "Category deleted successfully!",
+    });
   } catch (err) {
     res.status(404).json({
       status: "Fail",
@@ -80,36 +86,41 @@ router.delete("/:categoryId", async (req, res, next) => {
 });
 
 router.patch("/:categoryId", async (req, res, next) => {
-  const categoryId = req.params.categoryId;
-  try{ 
-  const updatedCategory = await CategoryModel.findByIdAndUpdate(
-    { _id: categoryId },
-    {
-      name: req.body.name,
-      color: req.body.color,
-      icon: req.body.icon,
-    },
-    //this obj returns new data
-    { new: true }
-  );
-  if (!updatedCategory) {
-    res.status(401).json({
-      status: "Fail",
-      message: "Category not found!",
-    });
-  } else {
-    res.status(200).json({
-      status: "success",
-      message: "Category updated successfully!",
-      data: updatedCategory
+  if (!mongoose.isValidObjectId(req.params.productId)) {
+    res.status(400).json({
+      status: "fail",
+      message: "invalid id",
     });
   }
-}catch(err){
-    res.status(500).json({
+  try {
+    const updatedCategory = await CategoryModel.findByIdAndUpdate(
+      { _id: req.params.categoryId },
+      {
+        name: req.body.name,
+        color: req.body.color,
+        icon: req.body.icon,
+      },
+      //this obj returns new data
+      { new: true }
+    );
+    if (!updatedCategory) {
+      res.status(401).json({
         status: "Fail",
-        message: err.message
+        message: "Category not found!",
       });
-}
+    } else {
+      res.status(200).json({
+        status: "success",
+        message: "Category updated successfully!",
+        data: updatedCategory,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      status: "Fail",
+      message: err.message,
+    });
+  }
 });
 
 module.exports = router;
