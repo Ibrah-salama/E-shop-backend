@@ -27,18 +27,28 @@ router.post("/", async(req,res,next)=>{
             })
         }
     }catch(err){
-        res.status(500).json({
+        res.status(400).json({
             status:"Fail",
             message: err.message
         })
     }
 })
 
-router.delete("/:categoryName", async(req,res,next)=>{
+router.delete("/:categoryId", async(req,res,next)=>{
     try{
-        const categoryName = req.params.categoryName 
-        await CategoryModel.deleteOne({categoryName : categoryName})
-        res.status(204).end()
+        const categoryId = req.params.categoryId 
+        const category = await CategoryModel.findByIdAndDelete({_id : categoryId})
+        if(category){ 
+            res.status(204).json({
+                status:"success",
+                message : "Category deleted successfully!"
+            })
+        }else{ 
+            res.status(404).json({
+                status:"Fail",
+                message : "Category not found!"
+            })
+        }
     }catch(err){
         res.status(401).json({
             status:"Fail",

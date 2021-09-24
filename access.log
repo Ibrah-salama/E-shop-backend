@@ -23,3 +23,11 @@
 ::1 - - [24/Sep/2021:03:00:26 +0000] "DELETE /api/v1/categories/Electronics HTTP/1.1" 401 17
 ::1 - - [24/Sep/2021:03:01:02 +0000] "DELETE /api/v1/categories/Electronics HTTP/1.1" 401 100
 ::1 - - [24/Sep/2021:03:01:39 +0000] "DELETE /api/v1/categories/Electronics HTTP/1.1" 204 -
+::1 - - [24/Sep/2021:03:05:46 +0000] "DELETE /api/v1/categories/Electronics HTTP/1.1" 204 -
+::1 - - [24/Sep/2021:03:05:50 +0000] "DELETE /api/v1/categories/Electronics HTTP/1.1" 204 -
+::1 - - [24/Sep/2021:03:05:53 +0000] "DELETE /api/v1/categories/Electronics HTTP/1.1" 204 -
+::1 - - [24/Sep/2021:03:05:55 +0000] "DELETE /api/v1/categories/Electronics HTTP/1.1" 204 -
+::1 - - [24/Sep/2021:03:09:18 +0000] "DELETE /api/v1/categories/Electronics HTTP/1.1" 401 152
+::1 - - [24/Sep/2021:03:09:33 +0000] "POST /api/v1/categories HTTP/1.1" 201 123
+::1 - - [24/Sep/2021:03:09:47 +0000] "DELETE /api/v1/categories/614d416d522d85abae4cbdd1 HTTP/1.1" 401 165
+::1 - - [24/Sep/2021:03:10:25 +0000] "DELETE /api/v1/categories/614d416d522d85abae4cbdd1 HTTP/1.1" 204 -
