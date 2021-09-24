@@ -23,6 +23,18 @@ const productSchema = mongoose.Schema({
   dateCreated: { type: Date, default: Date.now() },
 });
 
+productSchema.pre('save',function(next){
+  console.log("here")
+  next()
+})
+productSchema.virtual('id').get(function(){
+  console.log('jjjdjjdjd')
+  return `${this._id.toHexString()}`
+})
+productSchema.set('toJSON',{
+  virtual:true
+})
+
 const ProductModel = mongoose.model("Product", productSchema);
 
 module.exports = ProductModel;
