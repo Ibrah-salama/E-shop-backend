@@ -5,7 +5,11 @@ const ProductModel = require("../models/product");
 const mongoose = require('mongoose')
 
 router.get("/", async (req, res, next) => {
-  const prod = await ProductModel.find().populate({
+  let filter = {}
+  if(req.query.categories){
+    filter = {category:req.query.categories.split(',')}
+  }
+  const prod = await ProductModel.find(filter).populate({
     path: "category",
     select: "name -_id",
   });
@@ -20,6 +24,40 @@ router.get("/", async (req, res, next) => {
     data: prod,
   });
 });
+
+router.get("/get/count", async(req,res,next)=>{
+  try{
+    const products = await ProductModel.countDocuments()
+    if(!products) return res.status(500).json({ succss:false})
+    res.status(200).json({
+      status: "success",
+      count: products
+    })
+  }catch(err){
+    res.status(400).json({
+      status:"Fail",
+      message: err.message
+    })
+  }
+})
+
+router.get("/get/featured/:count", async(req,res,next)=>{
+    const count =req.params.count? req.params.count : 0
+  try{
+    const featuredProducts = await ProductModel.find({featured:true}).limit(+count)
+    if(!featuredProducts) return res.status(500).json({ succss:false})
+    res.status(200).json({
+      status: "success",
+      featuredProducts: featuredProducts
+    })
+  }catch(err){
+    res.status(400).json({
+      status:"Fail",
+      message: err.message
+    })
+  }
+})
+
 
 router.get("/:productId", async (req, res, next) => {
   const prod = await ProductModel.findById(req.params.productId).populate({
@@ -142,5 +180,7 @@ router.delete("/:productId", async (req, res, next) => {
     });
   }
 });
+
+
 
 module.exports = router;
