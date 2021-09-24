@@ -139,3 +139,14 @@
 ::1 - - [24/Sep/2021:07:45:57 +0000] "POST /api/v1/products HTTP/1.1" 201 378
 ::1 - - [24/Sep/2021:07:46:18 +0000] "GET /api/v1/products/?category=614d80a0a6b9c43031b67561,614d80a0a6b9c43031b67561 HTTP/1.1" 200 1417
 ::1 - - [24/Sep/2021:07:46:49 +0000] "GET /api/v1/products/ HTTP/1.1" 200 1417
+::1 - - [24/Sep/2021:07:55:21 +0000] "POST /api/v1/products HTTP/1.1" 201 378
+::1 - - [24/Sep/2021:07:56:41 +0000] "POST /api/v1/products HTTP/1.1" 201 378
+::1 - - [24/Sep/2021:07:58:42 +0000] "POST /api/v1/products HTTP/1.1" 201 378
+::1 - - [24/Sep/2021:07:58:53 +0000] "POST /api/v1/products HTTP/1.1" 201 378
+::1 - - [24/Sep/2021:08:00:42 +0000] "POST /api/v1/products HTTP/1.1" 201 378
+::1 - - [24/Sep/2021:08:01:16 +0000] "POST /api/v1/products HTTP/1.1" 201 378
+::1 - - [24/Sep/2021:08:04:57 +0000] "POST /api/v1/products HTTP/1.1" 201 378
+::1 - - [24/Sep/2021:08:07:52 +0000] "POST /api/v1/products HTTP/1.1" 201 378
+::1 - - [24/Sep/2021:08:09:04 +0000] "POST /api/v1/products HTTP/1.1" 201 378
+::1 - - [24/Sep/2021:08:11:19 +0000] "POST /api/v1/products HTTP/1.1" 201 378
+::1 - - [24/Sep/2021:08:11:52 +0000] "GET /api/v1/products/ HTTP/1.1" 200 1417
