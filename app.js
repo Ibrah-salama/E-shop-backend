@@ -1,24 +1,31 @@
 const express = require("express");
 const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
 const logger = require("morgan");
 const morgan = require("morgan");
 const fs = require("fs");
 const mongoose = require("mongoose");
+const cors = require('cors')
+const api = process.env.API_URL;
 
-const ProductModel = require('./models/product')
+//Routes 
+const productsRoutes = require('./routes/products')
+const usersRoutes = require('./routes/users')
+const ordersRoutes = require('./routes/orders')
+const categoriesRoutes = require('./routes/categories')
 
 const app = express();
-app.use(express.json());
+app.use(cors())
+app.options('*',cors())
 
-app.use(
-  logger("common", {
-    stream: fs.createWriteStream("./access.log", { flags: "a" }),
-  })
-  );
-  
-  app.use(morgan("dev"));
-  
-  dotenv.config({ path: "./config.env" });
+app.use(express.json());
+app.use( logger("common", {stream: fs.createWriteStream("./access.log", { flags: "a" }),}));
+app.use(morgan("dev"));
+
+app.use(`${api}/products`,productsRoutes)  
+app.use(`${api}/users`,usersRoutes)  
+app.use(`${api}/orders`,ordersRoutes)  
+app.use(`${api}/categories`,categoriesRoutes)  
 
 const DB =process.env.DB_URL
 mongoose.connect(DB,{
@@ -29,24 +36,6 @@ mongoose.connect(DB,{
   console.log("Connected successfull with atlas");
 
 }).catch(err=> console.log(err))
-
-const api = process.env.API_URL;
-
-app.get(`${api}/products`, (req, res) => {
-  const prod = ProductModel.find().then(data=>{ console.log(data)
-    res.send(data);
-  }).catch(err=>{ console.log(err)})
-});
-
-app.post(`${api}/products`, (req, res) => {
-  const prod = req.body;
-  ProductModel.create(prod).then(res=>{
-    console.log(res)
-    res.send(prod);
-  }).catch(err=> console.log(err))
-  console.log(prod);
-
-});
 
 app.listen(3000, (err) => {
   if (err) {
