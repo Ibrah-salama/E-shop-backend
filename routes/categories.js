@@ -79,4 +79,37 @@ router.delete("/:categoryId", async (req, res, next) => {
   }
 });
 
+router.patch("/:categoryId", async (req, res, next) => {
+  const categoryId = req.params.categoryId;
+  try{ 
+  const updatedCategory = await CategoryModel.findByIdAndUpdate(
+    { _id: categoryId },
+    {
+      name: req.body.name,
+      color: req.body.color,
+      icon: req.body.icon,
+    },
+    //this obj returns new data
+    { new: true }
+  );
+  if (!updatedCategory) {
+    res.status(401).json({
+      status: "Fail",
+      message: "Category not found!",
+    });
+  } else {
+    res.status(200).json({
+      status: "success",
+      message: "Category updated successfully!",
+      data: updatedCategory
+    });
+  }
+}catch(err){
+    res.status(500).json({
+        status: "Fail",
+        message: err.message
+      });
+}
+});
+
 module.exports = router;
