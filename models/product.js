@@ -28,7 +28,7 @@ productSchema.pre('save',function(next){
   next()
 })
 productSchema.virtual('id').get(function(){
-  console.log('jjjdjjdjd')
+
   return `${this._id.toHexString()}`
 })
 productSchema.set('toJSON',{
