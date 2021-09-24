@@ -32,6 +32,20 @@ router.post("/", async(req,res,next)=>{
             message: err.message
         })
     }
+})
+
+router.delete("/:categoryName", async(req,res,next)=>{
+    try{
+        const categoryName = req.params.categoryName 
+        await CategoryModel.deleteOne({categoryName : categoryName})
+        res.status(204).end()
+    }catch(err){
+        res.status(401).json({
+            status:"Fail",
+            message: err.message
+        })
+    }
+
 
 
 })
