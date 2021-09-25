@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema({
   name: {
@@ -19,23 +19,29 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     minLength: 8,
-    select: false,
     required: [true, "Please provide us a password to secure yourself!"],
   },
-  street: { type: String },
-  apartment: { type: String },
-  city: { type: String },
-  zip: { type: string },
-  country: { type: String },
-  phone: { type: String },
-  isAdmin: { type: Boolean },
+  street: { type: String, default: "" },
+  apartment: { type: String, default: "" },
+  city: { type: String, default: "" },
+  zip: { type: String, default: "" },
+  country: { type: String, default: "" },
+  phone: { type: String, required: [true, "Please provide your phone!"] },
+  isAdmin: { type: Boolean, default: false},
 });
 
-userSchema.pre('save', async function(next){
-    if(!this.isModified('password')) return next()
-    this.password = await bcrypt.hash(this.password,12)
-    next()
-})
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+userSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
+
+userSchema.set("toObject", { virtuals: true });
+userSchema.set("toJSON", { virtuals: true });
 
 const UserModel = mongoose.model("User", userSchema);
 
