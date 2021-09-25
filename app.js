@@ -7,7 +7,8 @@ const fs = require("fs");
 const mongoose = require("mongoose");
 const cors = require('cors')
 const api = process.env.API_URL;
-
+const authJWT = require("./helpers/authHandler")
+const errHandler = require('./helpers/err-handler')
 //Routes 
 const productsRoutes = require('./routes/products')
 const usersRoutes = require('./routes/users')
@@ -21,6 +22,8 @@ app.options('*',cors())
 app.use(express.json());
 app.use( logger("common", {stream: fs.createWriteStream("./access.log", { flags: "a" }),}));
 app.use(morgan("dev"));
+app.use(authJWT())
+app.use(errHandler)
 
 app.use(`${api}/products`,productsRoutes)  
 app.use(`${api}/users`,usersRoutes)  
