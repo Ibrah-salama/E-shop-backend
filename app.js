@@ -8,13 +8,13 @@ const mongoose = require("mongoose");
 const cors = require('cors')
 const api = process.env.API_URL;
 const authJWT = require("./helpers/authHandler")
-const errHandler = require('./helpers/err-handler')
+const {errHandler} = require('./helpers/err-handler')
 //Routes 
 const productsRoutes = require('./routes/products')
 const usersRoutes = require('./routes/users')
 const ordersRoutes = require('./routes/orders')
 const categoriesRoutes = require('./routes/categories')
-
+const orderItemsRoutes = require('./routes/orderItems')
 const app = express();
 app.use(cors())
 app.options('*',cors())
@@ -29,6 +29,7 @@ app.use(`${api}/products`,productsRoutes)
 app.use(`${api}/users`,usersRoutes)  
 app.use(`${api}/orders`,ordersRoutes)  
 app.use(`${api}/categories`,categoriesRoutes)  
+app.use(`${api}/orderItems`,orderItemsRoutes)  
 
 const DB =process.env.DB_URL
 mongoose.connect(DB,{

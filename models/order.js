@@ -1,19 +1,29 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const orderSchema = mongoose.Schema({
-    orderItems:[ {type: mongoose.Schema.ObjectId , ref:'OrderItem'}],
-    shippingAddress1: { type:String},
-    shippingAddress2: { type:String},
-    city: { type:String },
-    zip: { type:String },
-    country: { type:String },
-    phone: { type: Number}, 
-    status: { type:String}, 
-    totalPrice: { type: Number }, 
-    user : { type : mongoose.Schema.ObjectId, ref: 'User' },
-    dateOrdered: { type: Date }
-})
+  orderItems: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "OrderItem", required: true },
+  ],
+  shippingAddress1: { type: String, required: true },
+  shippingAddress2: { type: String },
+  city: { type: String, required: true },
+  zip: { type: String, required: true },
+  country: { type: String, required: true },
+  phone: { type: Number, required: true },
+  status: { type: String, required: true, default: "Pending" },
+  totalPrice: { type: Number },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  dateOrdered: { type: Date, default: Date.now() },
+});
 
-const OrderModel = mongoose.model('Order', Schema)
+orderSchema.virtual('id').get(function(){
+    return this._id.toHexString()
+  })
+  
+  orderSchema.set('toObject', { virtuals: true })
+  orderSchema.set('toJSON', { virtuals: true })
+  
 
-module.exports = OrderModel
+const OrderModel = mongoose.model("Order", orderSchema);
+
+module.exports = OrderModel;

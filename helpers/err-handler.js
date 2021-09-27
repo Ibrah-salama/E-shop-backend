@@ -1,4 +1,4 @@
-function errHandler(err, req, res, next) {
+exports.errHandler = (err, req, res, next)=> {
   if (err.name === "UnauthorizedError") {
     return res.status(500).json({
       status: "Server Failure",
@@ -13,7 +13,11 @@ function errHandler(err, req, res, next) {
       message: err.message,
     });
   }
-  return res.status(500).json(err);
+
+  return res.status(500).json({
+    status: "Failure",
+    message: err
+  })
 }
 
-module.exports = errHandler;
+
