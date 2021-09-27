@@ -37,7 +37,8 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.virtual("id").get(function () {
-  return this._id.toHexString();
+  const id = this._id.toHexString();
+  return id
 });
 
 userSchema.set("toObject", { virtuals: true });

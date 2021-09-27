@@ -31,7 +31,6 @@ productSchema.set('toObject', { virtuals: true })
 productSchema.set('toJSON', { virtuals: true })
 
 productSchema.pre('save',function(next){
-  console.log("here")
   next()
 })
 
