@@ -23,6 +23,7 @@ app.use(express.json());
 app.use( logger("common", {stream: fs.createWriteStream("./access.log", { flags: "a" }),}));
 app.use(morgan("dev"));
 app.use(authJWT())
+app.use('/public/uploads',express.static(__dirname+'/public/uploads'));
 app.use(errHandler)
 
 app.use(`${api}/products`,productsRoutes)  
@@ -30,7 +31,7 @@ app.use(`${api}/users`,usersRoutes)
 app.use(`${api}/orders`,ordersRoutes)  
 app.use(`${api}/categories`,categoriesRoutes)  
 app.use(`${api}/orderItems`,orderItemsRoutes)  
-
+app.get('/favicon.ico', (req, res) => res.status(204));
 const DB =process.env.DB_URL
 mongoose.connect(DB,{
         useNewUrlParser:true,
