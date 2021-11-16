@@ -481,3 +481,5 @@
 ::1 - - [16/Nov/2021:05:25:42 +0000] "PUT /api/v1/products/gallery-images/61933b178f5433d8198f695f HTTP/1.1" 200 523
 ::1 - - [16/Nov/2021:05:37:33 +0000] "GET /public/uploads/FC-P-vbXoAQ2YX1-jpeg-1637040340413.jpeg HTTP/1.1" 200 97688
 ::1 - - [16/Nov/2021:05:37:33 +0000] "GET /favicon.ico HTTP/1.1" 404 150
+::1 - - [16/Nov/2021:05:59:29 +0000] "GET /public/uploads/tour-9-3_1632815210289.jpeg HTTP/1.1" 404 181
+::1 - - [16/Nov/2021:05:59:42 +0000] "GET /public/uploads/tour-9-3_1632815210289.jpeg HTTP/1.1" 404 181
