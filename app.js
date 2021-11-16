@@ -42,7 +42,9 @@ mongoose.connect(DB,{
 
 }).catch(err=> console.log(err))
 
-app.listen(3000, (err) => {
+const PORT = process.env.PORT || 3000
+
+app.listen(PORT, (err) => {
   if (err) {
     console.log("Error connecting on port 3000");
   } else {
