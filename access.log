@@ -483,3 +483,4 @@
 ::1 - - [16/Nov/2021:05:37:33 +0000] "GET /favicon.ico HTTP/1.1" 404 150
 ::1 - - [16/Nov/2021:05:59:29 +0000] "GET /public/uploads/tour-9-3_1632815210289.jpeg HTTP/1.1" 404 181
 ::1 - - [16/Nov/2021:05:59:42 +0000] "GET /public/uploads/tour-9-3_1632815210289.jpeg HTTP/1.1" 404 181
+::1 - - [16/Nov/2021:06:21:02 +0000] "GET /public/uploads/Bosch-BHN24L-1604698311860.png HTTP/1.1" 404 184
