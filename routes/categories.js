@@ -9,10 +9,7 @@ router.get("/", async (req, res, next) => {
       status: Fail,
     });
   }
-  res.status(200).json({
-    status: "success",
-    data: categories,
-  });
+  res.status(200).json(categories);
 });
 
 router.post("/", async (req, res, next) => {

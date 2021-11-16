@@ -23,6 +23,7 @@ app.use(express.json());
 app.use( logger("common", {stream: fs.createWriteStream("./access.log", { flags: "a" }),}));
 app.use(morgan("dev"));
 app.use(authJWT())
+app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 app.use(errHandler)
 
 app.use(`${api}/products`,productsRoutes)  
