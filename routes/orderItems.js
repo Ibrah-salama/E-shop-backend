@@ -27,4 +27,22 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.get("/", async(req,res,next)=>{
+  try{
+    const orderItems = await OrderItemModel.find()
+    if(orderItems){
+      res.status(201).json({
+        status: "success",
+        data: orderItems,
+      });
+    }
+  }catch(err){
+    res.status(500).json({
+      status: "Fail",
+      message: err.message,
+    });
+  }
+
+})
+
 module.exports = router;

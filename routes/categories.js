@@ -1,6 +1,7 @@
 const express = require("express");
 const CategoryModel = require("../models/category");
 const router = express.Router();
+const mongoose = require('mongoose')
 
 router.get("/", async (req, res, next) => {
   const categories = await CategoryModel.find();
@@ -9,7 +10,7 @@ router.get("/", async (req, res, next) => {
       status: Fail,
     });
   }
-  res.status(200).json(categories);
+  res.status(200).json({status:"success" , data: categories});
 });
 
 router.post("/", async (req, res, next) => {
@@ -54,7 +55,7 @@ router.get("/:categoryId", async (req, res, next) => {
 });
 
 router.delete("/:categoryId", async (req, res, next) => {
-  if (!mongoose.isValidObjectId(req.params.productId)) {
+  if (!mongoose.isValidObjectId(req.params.categoryId)) {
     res.status(400).json({
       status: "fail",
       message: "invalid id",

@@ -119,8 +119,8 @@ router.post("/", uploadOptions.single("image"), async (req, res, next) => {
       name: req.body.name,
       description: req.body.description,
       richDestination: req.body.richDestination,
-      image: req.body.image,
-      images: `${basePath}/${fileName}`,
+      image: `${basePath}/${fileName}`,
+      images: req.body.images,
       brand: req.body.brand,
       price: req.body.price,
       category: req.body.category,
@@ -129,19 +129,19 @@ router.post("/", uploadOptions.single("image"), async (req, res, next) => {
       isFeatured: req.body.isFeatured,
       dateCreated: req.body.dateCreated,
     });
-    if (!newProduct)
-      return res.status(500).json({
-        status: "Fail",
-        message: err.message,
-      });
+    console.log(newProduct);
+    if (!newProduct){
+      console.log("Error: " + newProduct)
+    }
+
     res.status(201).json({
       status: "Success",
       data: newProduct,
     });
   } catch (err) {
     res.status(500).json({
-      status: "Success",
-      data: newProduct,
+      status: "Fail",
+      message: err.message,
     });
   }
 });
@@ -156,13 +156,13 @@ router.patch("/:productId",uploadOptions.single('image'), async (req, res, next)
           .json({ status: "Fail", message: "Invalid Category!" });
       }
     }
-    const product = await ProductModel.findById(req.params.id)
+    const product = await ProductModel.findById(req.params.productId)
     if(!product) return res.status(400).send('Invalid product!')
 
     const file = req.file 
     let imagepath; 
     if(file){
-      const fileName = file.name
+      const fileName = file.filename
       const baseUrl = `${req.protocol}://${req.get('host')}/public/uploads/`
       imagepath = `${baseUrl}${fileName}`
     }else{
@@ -186,7 +186,7 @@ router.patch("/:productId",uploadOptions.single('image'), async (req, res, next)
       { new: true }
     );
     if (updatedProduct)
-      res.status(201).json( updatedProduct);
+      res.status(201).json( {status:"success", data:updatedProduct});
     if (!updatedProduct)
       res.status(500).json({
         status: "Faild",
@@ -234,7 +234,6 @@ router.put('/gallery-images/:id', uploadOptions.array('images', 10), async (req,
           imagesPaths.push(`${basePath}${file.filename}`);
       });
   }
-  console.log(imagesPaths)
   const product = await ProductModel.findByIdAndUpdate(
       req.params.id,
       {

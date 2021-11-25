@@ -5,6 +5,35 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mongoose = require('mongoose')
 
+
+router.post("/",async (req,res,next)=>{
+  try{
+    const user = await UserModel.create({
+      name: req.body.name,
+      email: req.body.email,
+      city: req.body.city,
+      zip: req.body.zip,
+      country: req.body.country,
+      phone: req.body.phone,
+      street: req.body.street,
+      apartment: req.body.apartment,
+      password: req.body.password,
+      isAdmin: req.body.isAdmin
+    })
+    if(user){
+      res.status(201).json({
+        status:"success",
+        data:user
+      })
+    }
+  }catch(err){
+    res.status(400).json({
+      status:"fail",
+      message:err.message
+    })
+  }
+
+})
 router.post("/signup", async (req, res, next) => {
   try {
     const newUser = await UserModel.create({
@@ -139,6 +168,44 @@ router.delete("/:userId", async (req, res, next) => {
   }
 });
 
+router.patch("/:id", async (req,res,next)=>{
+  if(!mongoose.isValidObjectId(req.params.userId)){
+    res.status(400).json({
+      status:"fail",
+      message:"invalid id"
+    })
+  }
+  try{
+    const updatedUser = await UserModel.findByIdAndUpdate(req.params.id,{
+      name: req.body.name,
+      email: req.body.email,
+      city: req.body.city,
+      zip: req.body.zip,
+      country: req.body.country,
+      phone: req.body.phone,
+      street: req.body.street,
+      apartment: req.body.apartment,
+      password: req.body.password,
+      isAdmin: req.body.isAdmin
+    },{
+      new:true
+    })
+    
+    if(updatedUser){
+      res.status(200).json({
+        status:"success",
+        data:updatedUser
+      })
+    }
 
+   }catch(err){
+    res.status(400).json({
+      status:"fail",
+      message:err.message
+    })
+  }
+
+
+})
 
 module.exports = router;

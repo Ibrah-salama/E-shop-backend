@@ -40,12 +40,12 @@ router.post("/", async (req, res, next) => {
       })
     );
     const ordersIdsResolved = await orderItemsIds;
+
     const totalPrices = await Promise.all(ordersIdsResolved.map(async (orderItemId)=>{
       const orderItem = await OrderItemModel.findById(orderItemId).populate('product','price')
       const totalPrice = orderItem.product.price * orderItem.quantity 
       return totalPrice
     }))
-    console.log(totalPrices)
     const totlaPrice = totalPrices.reduce((a,b)=> a+b ,0)
     const newOrder = await OrderModel.create({
       orderItems: ordersIdsResolved,
@@ -67,7 +67,6 @@ router.post("/", async (req, res, next) => {
       });
     }
   } catch (err) {
-    console.log(err)
     res.status(500).json({
       status: "Fail",
       message: err.message,
@@ -79,7 +78,6 @@ router.get("/get/totalsales", async (req,res,next)=>{
   const totalSales = await OrderModel.aggregate([
     {$group: {_id:null, totalsales: {$sum:'$totalPrice'}}}
   ])
-  console.log(totalSales)
   if(!totalSales){
     return res.status(500).json({
       status:"Fail",
@@ -103,7 +101,7 @@ router.get("/:orderId", async (req, res, next) => {
       path: "orderItems",
         populate: {
           path: "product",
-          select: "name",
+          select: "name price brand",
           populate: { path: "category", select: "name" },
         },
       })
@@ -114,6 +112,7 @@ router.get("/:orderId", async (req, res, next) => {
           data: order,
         });
       }
+
       if(!order){
         return next(errHandler("There is no orders with that id",req,res))
       }
@@ -130,18 +129,15 @@ router.delete("/:orderId", async (req, res, next) => {
       return next("err")
   }
   try {
+    console.log(here);
     const order = await OrderModel.findByIdAndDelete(
       req.params.orderId
     );
-    if(mongoose.Types.ObjectId.isValid(await order.orderItems[0])){
-      console.log(order.orderItems[0].toString())
-      console.log()
-      console.log("True")
-    }
     const items = await Promise.all(order.orderItems.map(it=> it.toString()))
-    console.log(items)
+
     const deletedOrderItems = await OrderItemModel.findByIdAndRemove({_id: { $in : items }})
-    console.log(deletedOrderItems)
+      console.log(order);
+      console.log(items);
     if (!order) {
       return res.status(401).json({
         status: "Fail",
@@ -155,7 +151,7 @@ router.delete("/:orderId", async (req, res, next) => {
   } catch (err) {
     res.status(500).json({
       status:"Fail",
-      message: err
+      message: err.message
     })
   }
   // OrderModel.findByIdAndDelete(req.params.orderId).then(async order=> { 
