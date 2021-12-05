@@ -9,7 +9,7 @@ const orderSchema = mongoose.Schema({
   city: { type: String, required: true },
   zip: { type: String, required: true },
   country: { type: String, required: true },
-  phone: { type: Number, required: true },
+  phone: { type: String, required: true },
   status: { type: String, required: true,Enum:["Pending","Shipping","Shipped","Deleverd"], default: "Pending" },
   totalPrice: { type: Number },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
