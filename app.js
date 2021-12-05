@@ -48,7 +48,6 @@ app.listen(PORT, (err) => {
   if (err) {
     console.log("Error connecting on port 3000");
   } else {
-    console.log(api);
     console.log("Connected successfully on port 3000 ");
   }
 });

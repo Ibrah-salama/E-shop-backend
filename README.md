@@ -32,7 +32,7 @@ NodeJs, Express and MongoDB
 ### Deploying / Publishing
 Heroku:
 
-Test API : [API](https://sleepy-depths-27368.herokuapp.com/api/v1) 
+Test API : [API](https://e-backen.herokuapp.com/api/v1/) 
 
 ex: 
 * products
