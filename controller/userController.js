@@ -1,17 +1,38 @@
 const UserModel = require("../models/user");
 
 exports.getUsers = async (req, res, next) => {
-  const users = await UserModel.find();
-  if (!users) {
-    return res.status(500).json({
-      status: Fail,
-      message: "Fial in gettin users",
-    });
-  }
-  res.status(200).json({
+  const page = +req.query.page || 1
+  const limit = +req.query.limit || 3
+  const skip = (page-1)*limit
+  if(req.query.page || req.query.limit){
+      const users =  await UserModel.find({},{},{createdAt:-1}).limit(3)
+      console.log(users)
+      res.status(200).json({
+        status: "success",
+        data: users,
+      });
+      
+    }else{
+      const users = await UserModel.find()
+      console.log(users)
+        res.status(200).json({
     status: "success",
     data: users,
   });
+  }
+
+
+  // const users = await UserModel.find();
+  // if (!users) {
+  //   return res.status(500).json({
+  //     status: Fail,
+  //     message: "Fial in gettin users",
+  //   });
+  // }
+  // res.status(200).json({
+  //   status: "success",
+  //   data: users,
+  // });
 };
 exports.getUser = async (req, res, next) => {
   const userId = req.params.userId;

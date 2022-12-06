@@ -28,6 +28,7 @@ const userSchema = mongoose.Schema({
   country: { type: String, default: "" },
   phone: { type: String, required: [true, "Please provide your phone!"] },
   isAdmin: { type: Boolean, default: false},
+  createdAt:{ type: Date , default:Date.now() }
 });
 
 userSchema.pre("save", async function (next) {
